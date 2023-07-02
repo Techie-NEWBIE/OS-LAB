@@ -1,0 +1,91 @@
+SYSTEM CALL
+
+1.
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+void main()
+{
+pid_t p;
+printf("Process ID :%d\n",getpid());
+printf("Parent process ID :%d\n\n",getppid());  
+p=fork();
+if(p==-1)
+{
+printf("ERROR\n");
+}
+else if(p==0)
+{
+printf("CHILD PROCESS\n");
+printf("Process ID :%d\n",getpid());
+printf("Parent process ID :%d\n\n",getppid());
+}
+else if(p>0)
+{
+printf("PARENT PROCESS\n");
+printf("Process ID :%d\n",getpid());
+printf("parent process ID :%d\n\n",getppid());
+}
+}
+2.
+#include <stdio.h>
+#include <sys/types.h>             
+#include <unistd.h>                         
+void main()
+{
+pid_t p;
+int i;
+printf("Process ID :%d\n",getpid());
+printf("Parent process ID :%d\n\n",getppid());           
+p=fork();
+if(p==-1)
+{
+printf("ERROR\n");
+}
+else if(p==0)
+{
+printf("CHILD PROCESS\n");
+printf("Process ID :%d\n",getpid());
+printf("Parent Process ID :%d\n",getppid());
+for(i=3;i>0;i--)
+{
+sleep(1);
+printf("Child running %d\n",i);
+}
+}
+else if(p>0)
+{
+wait(NULL);
+printf("\nPARENT PROCESS\n");
+printf("Process ID :%d\n",getpid());
+printf("parent process ID :%d\n",getppid());
+for(i=3;i>0;i--)
+{
+sleep(1);
+printf("Parent running %d\n",i);
+}
+}
+} 
+
+3.
+#include <stdio.h>
+#include <stdlib.h>
+#include <dirent.h>
+void main()
+{
+DIR *dirp;
+struct dirent *dp;
+if((dirp=opendir("/home/administrator/bhav"))==NULL)
+{
+printf("NO FOLDER EXISTS\n");
+exit(1);
+}
+for(dp=readdir(dirp);dp!=NULL;dp=readdir(dirp))
+{                                                                                           
+if(dp->d_type==DT_REG)
+{
+printf("%s\n",dp->d_name);
+}
+}
+closedir(dirp);
+}
